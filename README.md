@@ -1,25 +1,18 @@
-# grey_spider
- 
-## 抓取源
-- 详情页抓取: http://hotels.ctrip.com/domestic-1.html 北京热门地标（下文简称 detail）
-- 列表页抓取: http://hotels.ctrip.com/top/beijing1/zuixinyuding 所有最新预订榜（下文简称 list）
+# 抓取对象
+* 北京酒店预订 列表页抓取: http://hotels.ctrip.com/top/beijing1/zuixinyuding 获取所有最新预订榜
+* 北京酒店预订 详情页抓取: http://hotels.ctrip.com/domestic-1.html 根据北京热门地标来搞
 
+# 模块简介
+主要模块
+* 调度服务 spider.py: 继承自 daemon.py，实现了一个可以后台一直运行的进程，定时触发抓取方法
+* 抓取模块 crawler.py: 提供两种抓取方法（分别对应两个源）：详情页 detail_page_disposal()  列表页 list_page_disposal()  
+实现了一个 Crawler 类，用来 伪造请求 & 依次抓取页面
+* 页面解析 pages/page.py: list_page.py detail_page.py 继承自 page.py 分别解析两种源对应的页面
+* 导出图表 export.py: 数据聚合 & 绘制各式图表
 
-- 详情页
-早期是先找到网站的站点地图，然后以热本地标为列表，遍历抓取详情页信息，例如：
-内嵌图片 2
-内嵌图片 1
+辅助模块
+* ORM dao.py: 封装数据库操作
+* daemon.py: 实现后台一直运行的 daemon 进程
+* acquire_dicts.py: 临时字典的读取与写入 
+* analyse.py: 一些指标的相关性计算等，做后续分析完善
 
-- 列表页
-之后发现了一个更好的入口，在北京酒店排行榜中找到了“最新预订酒店排行榜”，可以获得更完整的数据：
-内嵌图片 3
-
-
-## 附件
-备注：其中部分图表是对 top5 地区进行汇总
-dashboard_detail.html  ：详情页所得数据产出的各式图表
-detail_sum_bookings.html  ：详情页总预订数的变化趋势
-list_sum_bookings.html ：列表页总预订数的变化趋势
-zone.txt ：地区ID 对应的 地区名称
-booking_records：所有预订记录 & 获取的信息​
-booking_records.csv
